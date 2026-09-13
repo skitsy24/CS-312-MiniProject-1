@@ -41,7 +41,13 @@ app.post("/posts/:id/edit", (req, res) => {
 })
 
 app.post("/posts/:id/delete", (req, res) => {
-    // remove post from posts on server
+    const id = Number(req.params.id);
+    // findIndex finds index of element in array that matches the condition
+    // in this case, matching id
+    const postIndex = posts.findIndex(post => post.id === id);
+    // removes that post
+    posts.splice(postIndex, 1);
+
     res.redirect("/");
 })
 app.listen(port, () => {
