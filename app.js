@@ -2,32 +2,37 @@ import express from "express";
 
 const app = express();
 const port = 3000;
-const posts = [
-  {
-    id: 1,
-    author: "Myles",
-    title: "My First Post",
-    content: "Domain Expansion, Infinite Void",
-    createdAt: new Date()
-  },
-
-  {
-    id: 2,
-    author: "John",
-    title: "Another Post",
-    content: "This is another test post.",
-    createdAt: new Date()
-  }
-];
 
 app.set("view engine", "ejs");
+
+const posts = [];
+
 
 app.get("/", (req, res) => {
   res.render("index", { posts: posts});
 });
 
+app.post("/posts", (req, res) => {
+    // read post user created
+    // turn it into an object
+    // and add it to posts on the server
+    res.redirect("/");
+});
 
+app.get("/posts/:id/edit", (req, res) => {
+    res.render("edit");
+})
 
+app.post("/posts/:id/edit", (req, res) => {
+    // read changes
+    // add changes to post to posts on the server
+     res.redirect("/");
+})
+
+app.post("/posts/:id/delete", (req, res) => {
+    // remove post from posts on server
+    res.redirect("/");
+})
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
