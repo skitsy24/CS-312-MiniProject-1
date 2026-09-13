@@ -7,6 +7,9 @@ app.set("view engine", "ejs");
 
 app.use(express.urlencoded({ extended: true }));
 
+app.use(express.static("public"));
+app.use("/bootstrap", express.static("node_modules/bootstrap/dist"));
+
 const posts = [];
 let nextId = 1;
 

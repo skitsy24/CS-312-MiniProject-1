@@ -1,103 +1,47 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Our Blog</title>
-</head>
+<%- include("partials/header", { pageTitle: "Our Blog" }) %>
 
-<body>
-
-  <header>
-    <h1>Our Blog</h1>
-    <p>Welcome to our blog.</p>
-  </header>
-
-
-  <main>
-
-    <!-- CREATE POST -->
-    <section>
-      <h2>Create a Post</h2>
-
+    <!-- Create a post -->
+    <section class="post-form mb-5" aria-labelledby="create-heading">
+      <h2 id="create-heading">Create a Post</h2>
       <form action="/posts" method="POST">
-
-        <label for="author">Your Name</label>
-        <input
-          type="text"
-          id="author"
-          name="author"
-          required
-        >
-
-        <label for="title">Post Title</label>
-        <input
-          type="text"
-          id="title"
-          name="title"
-          required
-        >
-
-        <label for="content">Post</label>
-        <textarea
-          id="content"
-          name="content"
-          required
-        ></textarea>
-
-        <button type="submit">Publish Post</button>
-
+        <div class="row g-3 mb-3">
+          <div class="col-md-5">
+            <label for="author" class="form-label">Your Name</label>
+            <input type="text" class="form-control" id="author" name="author" required>
+          </div>
+          <div class="col-md-7">
+            <label for="title" class="form-label">Post Title</label>
+            <input type="text" class="form-control" id="title" name="title" required>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="content" class="form-label">Post</label>
+          <textarea class="form-control" id="content" name="content" rows="5" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Publish Post</button>
       </form>
     </section>
 
-
-    <!-- POSTS -->
-    <section>
-
-      <h2>Recent Posts</h2>
-
+    <!-- Recent posts -->
+    <section aria-labelledby="posts-heading">
+      <h2 id="posts-heading">Recent Posts</h2>
       <% if (posts.length === 0) { %>
-
-        <p>No posts yet. Create the first one!</p>
-
+        <p class="empty-state">No posts yet. Create the first one!</p>
       <% } else { %>
-
         <% posts.forEach(post => { %>
-
-          <article>
-
+          <article class="blog-post">
             <h3><%= post.title %></h3>
-
-            <p>
-              By <%= post.author %>
-            </p>
-
-            <p><%= post.createdAt %></p>
-
-            <p><%= post.content %></p>
-
-
-            <!-- EDIT -->
-            <a href="/posts/<%= post.id %>/edit">
-              Edit
-            </a>
-
-
-            <!-- DELETE -->
-            <form
-              action="/posts/<%= post.id %>/delete"
-              method="POST"
-            >
-              <button type="submit">Delete</button>
-            </form>
-
+            <p class="post-meta">By <%= post.author %></p>
+            <p class="post-content"><%= post.content %></p>
+            <div class="post-actions d-flex align-items-center gap-3">
+              <a href="/posts/<%= post.id %>/edit">Edit<span class="visually-hidden"> <%= post.title %></span></a>
+              <form action="/posts/<%= post.id %>/delete" method="POST">
+                <button type="submit" class="delete-link">Delete<span class="visually-hidden"> <%= post.title %></span></button>
+              </form>
+            </div>
           </article>
-
         <% }); %>
-
       <% } %>
-
     </section>
 
-  </main>
-
-</body>
-</html>
+<%- include("partials/footer") %>
