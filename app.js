@@ -5,7 +5,10 @@ const port = 3000;
 
 app.set("view engine", "ejs");
 
+app.use(express.urlencoded({ extended: true }));
+
 const posts = [];
+let nextId = 1;
 
 
 app.get("/", (req, res) => {
@@ -13,9 +16,17 @@ app.get("/", (req, res) => {
 });
 
 app.post("/posts", (req, res) => {
-    // read post user created
-    // turn it into an object
-    // and add it to posts on the server
+    const newPost = {
+        id: nextId,
+        author: req.body.author,
+        title: req.body.title,
+        content: req.body.content,
+        createdAt: new Date()
+    };
+    posts.push(newPost);
+
+    nextId++;
+    
     res.redirect("/");
 });
 
