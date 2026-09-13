@@ -3,17 +3,101 @@
 <head>
   <title>My Blog</title>
 </head>
+
 <body>
 
-  <h1>My Blog</h1>
-  <p>Welcome to my blog.</p>
-    <% posts.forEach(post => { %>
+  <header>
+    <h1>My Blog</h1>
+    <p>Welcome to my blog.</p>
+  </header>
 
-    <h2><%= post.title %></h2>
-    <p>By <%= post.author %></p>
-    <p><%= post.content %></p>
-    <p><%= post.createdAt %></p>
 
-    <% }); %>
+  <main>
+
+    <!-- CREATE POST -->
+    <section>
+      <h2>Create a Post</h2>
+
+      <form action="/posts" method="POST">
+
+        <label for="author">Your Name</label>
+        <input
+          type="text"
+          id="author"
+          name="author"
+          required
+        >
+
+        <label for="title">Post Title</label>
+        <input
+          type="text"
+          id="title"
+          name="title"
+          required
+        >
+
+        <label for="content">Post</label>
+        <textarea
+          id="content"
+          name="content"
+          required
+        ></textarea>
+
+        <button type="submit">Publish Post</button>
+
+      </form>
+    </section>
+
+
+    <!-- POSTS -->
+    <section>
+
+      <h2>Recent Posts</h2>
+
+      <% if (posts.length === 0) { %>
+
+        <p>No posts yet. Create the first one!</p>
+
+      <% } else { %>
+
+        <% posts.forEach(post => { %>
+
+          <article>
+
+            <h3><%= post.title %></h3>
+
+            <p>
+              By <%= post.author %>
+            </p>
+
+            <p><%= post.createdAt %></p>
+
+            <p><%= post.content %></p>
+
+
+            <!-- EDIT -->
+            <a href="/posts/<%= post.id %>/edit">
+              Edit
+            </a>
+
+
+            <!-- DELETE -->
+            <form
+              action="/posts/<%= post.id %>/delete"
+              method="POST"
+            >
+              <button type="submit">Delete</button>
+            </form>
+
+          </article>
+
+        <% }); %>
+
+      <% } %>
+
+    </section>
+
+  </main>
+
 </body>
 </html>
