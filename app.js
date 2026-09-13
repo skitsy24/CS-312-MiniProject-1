@@ -31,13 +31,26 @@ app.post("/posts", (req, res) => {
 });
 
 app.get("/posts/:id/edit", (req, res) => {
-    res.render("edit");
+    // convert id to number
+    const id = Number(req.params.id);
+    // find post object in posts array
+    const post = posts.find(post => post.id === id);
+    // render edit page of that post
+    res.render("edit", { post: post });
 })
 
 app.post("/posts/:id/edit", (req, res) => {
-    // read changes
-    // add changes to post to posts on the server
-     res.redirect("/");
+    // convert id to number
+    const id = Number(req.params.id);
+    // find post object in posts array
+    const post = posts.find(post => post.id === id);
+    // save new changes
+    post.author = req.body.author;
+    post.title = req.body.title;
+    post.content = req.body.content;
+
+    res.redirect("/");
+
 })
 
 app.post("/posts/:id/delete", (req, res) => {
